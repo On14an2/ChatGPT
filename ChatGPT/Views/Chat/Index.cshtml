@@ -1,0 +1,148 @@
+﻿@using System.Security.Claims;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<ChatGPT.Models.Mess>
+@* @{
+    Layout = null;
+} *@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Chat with ChatGPT</title>
+    <style>
+        .message {
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 70%;
+        }
+
+        .user-message {
+            background-color: #e0f7fa;
+            align-self: flex-end;
+        }
+
+        .bot-message {
+            background-color: #f3e5f5;
+            align-self: flex-start;
+        }
+
+        #chat-messages {
+            display: flex;
+            flex-direction: column;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        #chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        form {
+            display: flex;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+@if(User.FindFirst(ClaimTypes.Role)?.Value! == "user")
+{
+    <body>
+        <table id="chats-table" border="1">
+            <thead>
+                <tr>
+                    <th>Chat ID</th>
+                    <th>Role</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+            </tbody>
+        </table>
+    <div id="chat-container">
+        <div id="chat-messages">
+            @await Html.PartialAsync("_ChatMessages", Model)
+        </div>
+        <div style="position: absolute; bottom: 0; width: 100%;">
+            <form id="chat-form">
+                <input type="text" name="message" id="message-input" autocomplete="off" />
+                <input type="submit" value="Send" />
+            </form>
+        </div>
+    </div>
+        
+
+        <script>
+            document.addEventListener('DOMContentLoaded', async function () {
+                const response = await fetch('/Chat/GetUserChats');
+                if (response.ok) {
+                    const chats = await response.json();
+                    const tableBody = document.querySelector('#chats-table tbody');
+                    chats.forEach(chat => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                                <td>${chat.chatId}</td>
+                                <td>${chat.role}</td>
+                                <td>${chat.message}</td>
+                            `;
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    console.error('Failed to load chats:', response.statusText);
+                }
+            });
+        </script>
+
+
+    <script>
+        document.getElementById('chat-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const message = document.getElementById('message-input').value;
+            const formData = new FormData();
+            formData.append('message', message);
+
+            const response = await fetch('/Chat/GetChatGptResponse', {
+                method: 'POST',
+                body: formData
+            });
+
+            const chatHistory = await response.json();
+            const chatMessagesDiv = document.getElementById('chat-messages');
+            chatMessagesDiv.innerHTML = '';
+
+            chatHistory.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(message.role === 'user' ? 'user' : 'system');
+                messageDiv.textContent = message.content;
+                chatMessagesDiv.appendChild(messageDiv);
+            });
+
+            document.getElementById('message-input').value = '';
+            chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+        });
+    </script>
+</body>
+}
+</html>

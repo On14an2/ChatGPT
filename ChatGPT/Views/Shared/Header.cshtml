@@ -1,0 +1,99 @@
+﻿@using System.Security.Claims;
+<meta charset='utf-8' />
+<style>
+       header {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+        header form {
+            display: inline;
+            margin: 0 5px;
+        }
+
+        header button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+            header button:hover {
+                background-color: #0056b3;
+            }
+
+    .form-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+    }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-container p {
+            margin-bottom: 15px;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-container input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+            .form-container input[type="submit"]:hover {
+                background-color: #218838;
+            }
+
+        .form-container span {
+            color: red;
+            font-size: 0.9em;
+        }
+</style>
+<header>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form method="post">
+            <button type="submit" asp-controller="Authorization" asp-action="Logout">
+                Sign out
+            </button>
+        </form>
+    }
+    else
+    {
+        <form method="post">
+            <button type="submit" asp-controller="Authorization" asp-action="Login">
+                Sign In
+            </button>
+        </form> <br>
+        <form method="post">
+            <button type="submit" asp-controller="Authorization" asp-action="SignUp">
+                Sign Up
+            </button>
+        </form>
+    }
+</header>

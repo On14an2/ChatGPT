@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Login</title>
+    <style>
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+            .form-container h2 {
+                margin-bottom: 20px;
+            }
+
+            .form-container p {
+                margin-bottom: 15px;
+            }
+
+            .form-container label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            .form-container input[type="text"],
+            .form-container input[type="password"] {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .form-container input[type="submit"] {
+                background-color: #28a745;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+                .form-container input[type="submit"]:hover {
+                    background-color: #218838;
+                }
+
+            .form-container span {
+                color: red;
+                font-size: 0.9em;
+            }
+    </style>
+</head>
+<body>
+    <h2>Login Form</h2>
+    <form method='post' action="/Authorization/Authorization">
+        <p>
+            <label>Login</label><br />
+            <input name='login' />
+        </p>
+        <p>
+            <label>Password</label><br />
+            <input type='password' name='password' />
+        </p>
+        <input type='submit' value='Sign In' />
+    </form>
+</body>
+</html>

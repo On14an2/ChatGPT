@@ -1,0 +1,88 @@
+﻿@model ChatGPT.Models.User;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Registration</title>
+    <style>
+        header form {
+            display: inline;
+            margin: 0 5px;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+        .form-container p {
+            margin-bottom: 15px;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .form-container input[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .form-container span {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h2>Registration Form</h2>
+    <form method='post' action="/Authorization/Registration">
+        <p>Enter the details below:</p>
+        <p>
+            <label>FirstName</label>
+            <input type="text" asp-for="FirstName" />
+            <span asp-validation-for="FirstName"></span>
+        </p>
+        <p>
+            <label>LastName</label>
+            <input type="text" asp-for="LastName" />
+            <span asp-validation-for="LastName"></span>
+        </p  
+        <p>
+            <label>Role</label><br />
+            <input type="text" asp-for="Role" />
+            <span asp-validation-for="Role"></span>
+        </p>
+        <p>
+            <label>Login</label><br />
+            <input type="text" asp-for="Login" />
+            <span asp-validation-for="Login"></span>
+        </p>
+        <p>
+            <label>Password</label><br />
+            <input type="text" asp-for="Password" />
+            <span asp-validation-for="Password"></span>
+        </p>
+        <input type='submit' value='Sign Up' />
+    </form>
+</body>
+</html>

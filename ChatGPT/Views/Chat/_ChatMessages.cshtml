@@ -1,0 +1,8 @@
+﻿@model List<ChatGPT.Models.Mess>
+
+@foreach (var message in Model)
+{
+    <div class="message @(message.role == "user" ? "user" : "system")">
+        @message.content
+    </div>
+}
